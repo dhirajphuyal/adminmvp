@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Link from "next/link";
+import {Building2, Home, Settings, StickyNote, Users2} from "lucide-react";
+import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip";
+import {cn} from "@/lib/utils";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,8 +19,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
-    </html>
+      <html lang="en">
+      <body className={cn("antialiased", inter.className)}>{children}</body>
+      </html>
   );
 }
