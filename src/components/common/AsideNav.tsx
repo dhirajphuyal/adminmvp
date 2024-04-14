@@ -1,7 +1,18 @@
 import Link from "next/link";
-import {Building2, Home, Settings, StickyNote, Users2, FileText, CircleFadingPlus} from "lucide-react";
+import {
+    Building2,
+    Home,
+    Settings,
+    StickyNote,
+    Users2,
+    FileText,
+    CircleFadingPlus,
+    NotebookText,
+    Users
+} from "lucide-react";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip";
 import React from "react";
+import {Badge} from "@/components/ui/badge";
 
 interface AsideNavProps {
     activeIndex: number;
@@ -9,102 +20,64 @@ interface AsideNavProps {
 
 const  AsideNav: React.FC<AsideNavProps> = ({activeIndex}) => {
     return <>
-        <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
-            <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
-                <div
-                    className="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base"
-                >
-                    <Building2 className="h-4 w-4 transition-all group-hover:scale-110"/>
-                    <span className="sr-only">Upwork</span>
+        <div className="hidden border-r bg-muted/40 md:block">
+            <div className="fixed flex h-full max-h-screen flex-col gap-2 ">
+                <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
+                    <Link href="/" className="flex items-center gap-2 font-semibold">
+                        <Building2 className="h-6 w-6"/>
+                        <span className="">MiddleMan</span>
+                    </Link>
                 </div>
-                <TooltipProvider>
-                    <Tooltip>
-                        <TooltipTrigger asChild>
-                            <Link
-                                href="/dashboard"
-                                className={`flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8 ${activeIndex === 0 ? "bg-accent text-accent-foreground" : "text-muted-foreground"}`}
-                            >
-                                <Home className="h-5 w-5"/>
-                                <span className="sr-only">Dashboard</span>
-                            </Link>
-                        </TooltipTrigger>
-                        <TooltipContent side="right">Dashboard</TooltipContent>
-                    </Tooltip>
-                </TooltipProvider>
-                <TooltipProvider>
-                    <Tooltip>
-                        <TooltipTrigger asChild>
-                            <Link
-                                href="/documents"
-                                className={`flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8 ${activeIndex === 1 ? "bg-accent text-accent-foreground" : "text-muted-foreground"}`}
-                            >
-                                <FileText className="h-5 w-5"/>
-                                <span className="sr-only">Document Verification</span>
-                            </Link>
-                        </TooltipTrigger>
-                        <TooltipContent side="right">Verify Documents</TooltipContent>
-                    </Tooltip>
-                </TooltipProvider>
-                <TooltipProvider>
-                    <Tooltip>
-                        <TooltipTrigger asChild>
-                            <Link
-                                href="/users"
-                                className={`flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8 ${activeIndex === 2 ? "bg-accent text-accent-foreground" : "text-muted-foreground"}`}
-                            >
-                                <Users2 className="h-5 w-5"/>
-                                <span className="sr-only">Users</span>
-                            </Link>
-                        </TooltipTrigger>
-                        <TooltipContent side="right">Manage Users</TooltipContent>
-                    </Tooltip>
-                </TooltipProvider>
-                <TooltipProvider>
-                    <Tooltip>
-                        <TooltipTrigger asChild>
-                            <Link
-                                href="/contents"
-                                className={`flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8 ${activeIndex === 3 ? "bg-accent text-accent-foreground" : "text-muted-foreground"}`}
-                            >
-                                <CircleFadingPlus className="h-5 w-5"/>
-                                <span className="sr-only">Posts</span>
-                            </Link>
-                        </TooltipTrigger>
-                        <TooltipContent side="right">Manage Contents</TooltipContent>
-                    </Tooltip>
-                </TooltipProvider>
-                <TooltipProvider>
-                    <Tooltip>
-                        <TooltipTrigger asChild>
-                            <Link
-                                href="/posts"
-                                className={`flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8 ${activeIndex === 4 ? "bg-accent text-accent-foreground" : "text-muted-foreground"}`}
-                            >
-                                <StickyNote className="h-5 w-5"/>
-                                <span className="sr-only">Posts</span>
-                            </Link>
-                        </TooltipTrigger>
-                        <TooltipContent side="right">Manage Contents</TooltipContent>
-                    </Tooltip>
-                </TooltipProvider>
-            </nav>
-            <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
-                <TooltipProvider>
-                    <Tooltip>
-                        <TooltipTrigger asChild>
-                            <Link
-                                href="/settings"
-                                className={`flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8 ${activeIndex === 5 ? "bg-accent text-accent-foreground" : "text-muted-foreground"}`}
-                            >
-                                <Settings className="h-5 w-5"/>
-                                <span className="sr-only">Settings</span>
-                            </Link>
-                        </TooltipTrigger>
-                        <TooltipContent side="right">Settings</TooltipContent>
-                    </Tooltip>
-                </TooltipProvider>
-            </nav>
-        </aside>
+                <div className="flex-1">
+                    <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
+                        <Link
+                            href="/dashboard"
+                            className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary ${activeIndex === 0 ? "text-primary bg-muted" : "text-black"}`}
+                        >
+                            <Home className="h-4 w-4"/>
+                            Dashboard
+                        </Link>
+                        <Link
+                            href="/documents"
+                            className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary ${activeIndex === 1 ? "text-primary bg-muted" : "text-black"}`}
+                        >
+                            <NotebookText className="h-4 w-4"/>
+                            Document Verification
+                        </Link>
+                        <Link
+                            href="/users"
+                            className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary ${activeIndex === 2 ? "text-primary bg-muted" : "text-black"}`}
+                        >
+                            <Users className="h-4 w-4"/>
+                            User Management
+                        </Link>
+                        <Link
+                            href="/promotionalposts"
+                            className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary ${activeIndex === 3 ? "text-primary bg-muted" : "text-black"}`}
+                        >
+                            <StickyNote className="h-4 w-4"/>
+                            Posts Management
+                        </Link>
+                        <Link
+                            href="/contents"
+                            className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary ${activeIndex === 4 ? "text-primary bg-muted" : "text-black"}`}
+                        >
+                            <CircleFadingPlus className="h-4 w-4"/>
+                            Content Management
+                        </Link>
+                    </nav>
+                </div>
+                <div className="mt-auto p-4">
+                    <Link
+                        href="#"
+                        className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary ${activeIndex === 5 ? "text-primary bg-muted" : "text-black"}`}
+                    >
+                        <Settings className="h-4 w-4"/>
+                        Settings
+                    </Link>
+                </div>
+            </div>
+        </div>
     </>;
 }
 

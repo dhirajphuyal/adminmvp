@@ -1,29 +1,50 @@
 "use client"
-import AsideNav from "@/components/common/AsideNav";
-import SheetNav from "@/components/common/SheetNav";
-import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
-import {Ban, Check, Delete, Eye, EyeOff, Search, Trash2, Users, X} from "lucide-react";
-import {Button} from "@/components/ui/button";
-import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
-import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
-import {Input} from "@/components/ui/input";
-import Link from "next/link";
-import {Label} from "@/components/ui/label";
-import {useState} from "react";
-import {useToast} from "@/components/ui/use-toast";
-
+import Link from "next/link"
 import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
+    Ban,
+    Bell, Building2, CircleFadingPlus,
+    CircleUser, Eye,
+    Home,
+    LineChart, ListFilter,
+    Menu, NotebookText,
+    Package,
+    Package2,
+    Search, Settings,
+    ShoppingCart, StickyNote, Trash2,
+    Users,
+} from "lucide-react"
+
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import {
+    Card,
+    CardContent,
+    CardDescription, CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card"
+import {
+    DropdownMenu,
+    DropdownMenuCheckboxItem,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Input } from "@/components/ui/input"
+import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
+import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
+import {
+    AlertDialog, AlertDialogAction, AlertDialogCancel,
+    AlertDialogContent, AlertDialogDescription, AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogTitle,
-    AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
-
+    AlertDialogTrigger
+} from "@/components/ui/alert-dialog";
+import {Label} from "@/components/ui/label";
+import {useState} from "react";
+import AsideNav from "@/components/common/AsideNav";
 
 const customerInfo = [
     {
@@ -91,11 +112,9 @@ const customerInfo = [
     }
 ]
 
-const UsersPage = () => {
+export function Dashboard() {
     const [allowEdit, setAllowEdit] = useState(false);
     const [viewUserInfo, setViewUserInfo] = useState(false);
-    const [viewDocument, setViewDocument] = useState(false);
-    const { toast } = useToast();
 
     const currentUser = {
         "userId": "12212",
@@ -109,13 +128,32 @@ const UsersPage = () => {
     }
 
     return (
-        <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[235px_1fr]">
-            <AsideNav activeIndex={2} />
-            <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
-                <SheetNav title={"User Management"} description={"View, edit, suspend and ban users."}/>
+        <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
+            <AsideNav activeIndex={0} />
+            <div className="flex flex-col">
+                <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
+                    <div className="w-full flex-1">
+                    </div>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="secondary" size="icon" className="rounded-full">
+                                <CircleUser className="h-5 w-5"/>
+                                <span className="sr-only">Toggle user menu</span>
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                            <DropdownMenuSeparator/>
+                            <DropdownMenuItem>Settings</DropdownMenuItem>
+                            <DropdownMenuItem>Support</DropdownMenuItem>
+                            <DropdownMenuSeparator/>
+                            <DropdownMenuItem>Logout</DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </header>
                 <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
-                    <div className="grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-5">
-                        <div className={`grid auto-rows-max items-start gap-4 md:gap-8 ${viewUserInfo? "lg:col-span-3" : "lg:col-span-4"}`}>
+                    <div className="grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-6">
+                        <div className={`grid auto-rows-max items-start gap-4 md:gap-8 ${viewUserInfo? "lg:col-span-4" : "lg:col-span-6"}`}>
                             <Tabs defaultValue="buyers">
                                 <div className="flex flex-row items-center">
                                     <TabsList>
@@ -124,8 +162,33 @@ const UsersPage = () => {
                                         <TabsTrigger value="suspended">Suspended</TabsTrigger>
                                         <TabsTrigger value="banned">Banned</TabsTrigger>
                                     </TabsList>
-                                    <div className="relative ml-auto flex-1 md:grow-0">
-                                        <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground"/>
+                                    <div className="relative ml-auto flex items-center gap-2">
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger asChild>
+                                                <Button
+                                                    variant="outline"
+                                                    size="sm"
+                                                    className="h-9 gap-1 text-sm"
+                                                >
+                                                    <ListFilter className="h-4 w-4" />
+                                                    <span className="sr-only sm:not-sr-only">Filter</span>
+                                                </Button>
+                                            </DropdownMenuTrigger>
+                                            <DropdownMenuContent align="end">
+                                                <DropdownMenuLabel>Filter by</DropdownMenuLabel>
+                                                <DropdownMenuSeparator />
+                                                <DropdownMenuCheckboxItem checked>
+                                                    Active
+                                                </DropdownMenuCheckboxItem>
+                                                <DropdownMenuCheckboxItem>
+                                                    Suspended
+                                                </DropdownMenuCheckboxItem>
+                                                <DropdownMenuCheckboxItem>
+                                                    Banned
+                                                </DropdownMenuCheckboxItem>
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
+                                        <Search className="absolute inset-x-24 h-4 w-4 text-muted-foreground"/>
                                         <Input
                                             type="search"
                                             placeholder="Search..."
@@ -223,7 +286,7 @@ const UsersPage = () => {
                                                                 </div>
                                                             </TableCell>
                                                             <TableCell className="hidden sm:table-cell">
-                                                                Rs. {customer.totalAmount}
+                                                                {customer.totalAmount}
                                                             </TableCell>
                                                             <TableCell className="hidden md:table-cell">
                                                                 {customer.date}
@@ -292,42 +355,49 @@ const UsersPage = () => {
                                                                         </Button></AlertDialogTrigger>
                                                                     <AlertDialogContent>
                                                                         <AlertDialogHeader>
-                                                                            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                                                                            <AlertDialogTitle>Are
+                                                                                you </AlertDialogTitle>
                                                                             <AlertDialogDescription>
-                                                                                This action will remove user from the suspended list. They will be active on the platform afterwards.
+                                                                                This action cannot be undone. This will
+                                                                                permanently ban the user from the
+                                                                                platform.
                                                                             </AlertDialogDescription>
                                                                         </AlertDialogHeader>
                                                                         <AlertDialogFooter>
                                                                             <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                                                            <AlertDialogAction className={"bg-red-600 hover:bg-red-500"}>Continue</AlertDialogAction>
+                                                                            <AlertDialogAction
+                                                                                className={"bg-red-600 hover:bg-red-500"}>Continue</AlertDialogAction>
                                                                         </AlertDialogFooter>
                                                                     </AlertDialogContent>
                                                                 </AlertDialog>
                                                                 <AlertDialog>
                                                                     <AlertDialogTrigger>
                                                                         <Button size="sm" variant="destructive"
-                                                                         className="h-8 gap-1 mr-2"
-                                                                         onClick={() => setViewUserInfo(true)}>
-                                                                        <Ban className="h-3.5 w-3.5"/>
-                                                                        <span
-                                                                            className="lg:sr-only xl:not-sr-only xl:whitespace-nowrap">
+                                                                                className="h-8 gap-1 mr-2"
+                                                                                onClick={() => setViewUserInfo(true)}>
+                                                                            <Ban className="h-3.5 w-3.5"/>
+                                                                            <span
+                                                                                className="lg:sr-only xl:not-sr-only xl:whitespace-nowrap">
                                                               Ban Permanently
                                                             </span>
-                                                                    </Button></AlertDialogTrigger>
+                                                                        </Button></AlertDialogTrigger>
                                                                     <AlertDialogContent>
                                                                         <AlertDialogHeader>
-                                                                            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                                                                            <AlertDialogTitle>Are you
+                                                                                sure?</AlertDialogTitle>
                                                                             <AlertDialogDescription>
-                                                                                This action cannot be undone. This will permanently ban the user from the platform.
+                                                                                This action cannot be undone. This will
+                                                                                permanently ban the user from the
+                                                                                platform.
                                                                             </AlertDialogDescription>
                                                                         </AlertDialogHeader>
                                                                         <AlertDialogFooter>
                                                                             <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                                                            <AlertDialogAction className={"bg-red-600 hover:bg-red-500"}>Continue</AlertDialogAction>
+                                                                            <AlertDialogAction
+                                                                                className={"bg-red-600 hover:bg-red-500"}>Continue</AlertDialogAction>
                                                                         </AlertDialogFooter>
                                                                     </AlertDialogContent>
                                                                 </AlertDialog>
-
                                                             </TableCell>
                                                         </TableRow>
                                                     ))}
@@ -357,6 +427,7 @@ const UsersPage = () => {
                                                 </TableHeader>
                                                 <TableBody>
                                                     {customerInfo.map((customer) => (
+
                                                         <TableRow className="" key={customer.email}>
                                                             <TableCell>
                                                                 <div className="font-medium">{customer.name}</div>
@@ -385,11 +456,12 @@ const UsersPage = () => {
                                             </Table>
                                         </CardContent>
                                     </Card>
+
                                 </TabsContent>
                             </Tabs>
                         </div>
-                        <div className={`grid auto-rows-max items-start gap-4 md:gap-8 ${viewUserInfo? "lg:col-span-2" : "lg:col-span-0"}`}>
-                            {viewUserInfo &&
+                        <div className={`grid auto-rows-max items-start gap-4 md:gap-8 ${viewUserInfo? "lg:col-span-2": "hidden"} `}>
+                            {viewUserInfo ? (
                                 <Card className="overflow-hidden">
                                     <CardHeader className="flex flex-row items-center justify-between bg-muted/50">
                                         <div className="grid gap-2">
@@ -398,11 +470,11 @@ const UsersPage = () => {
                                                 Information filled out by the user.
                                             </CardDescription>
                                         </div>
-                                        <div className={"flex flex-row gap-2"}>
+                                        <div className={"flex flex-row gap-4"}>
                                             <AlertDialog>
                                                 <AlertDialogTrigger>
                                                     <Button size="sm" variant="destructive"
-                                                            className="h-9 gap-1 mr-2"
+                                                            className="h-8 gap-1 mr-2"
                                                             onClick={() => setViewUserInfo(true)}>
                                                         <span
                                                             className="lg:sr-only xl:not-sr-only xl:whitespace-nowrap">
@@ -418,17 +490,14 @@ const UsersPage = () => {
                                                     </AlertDialogHeader>
                                                     <AlertDialogFooter>
                                                         <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                                        <AlertDialogAction className={"bg-red-600 hover:bg-red-500"} onClick={() => {
-                                                            toast({
-                                                                title: "User Suspended",
-                                                                description: "The specified user has been suspended from the platform.",
-                                                                variant: "default",
-                                                            });
-                                                        }}>Continue</AlertDialogAction>
+                                                        <AlertDialogAction
+                                                            className={"bg-red-600 hover:bg-red-500"}>Continue</AlertDialogAction>
                                                     </AlertDialogFooter>
                                                 </AlertDialogContent>
                                             </AlertDialog>
-                                            <Button asChild size="sm" className="ml-auto gap-1 bg-black hover:bg-gray-600" onClick={() => setAllowEdit(true)}>
+                                            <Button asChild size="sm"
+                                                    className="ml-auto gap-1 bg-black hover:bg-gray-600"
+                                                    onClick={() => setAllowEdit(true)}>
                                                 <Link href="#">
                                                     Edit User
                                                 </Link>
@@ -438,69 +507,48 @@ const UsersPage = () => {
                                     <CardContent className="p-6 text-sm h-auto">
                                         <div className={"flex flex-col gap-4"}>
                                             <Label htmlFor="name">Full Name:</Label>
-                                            <Input disabled={!allowEdit} type="text" id="name" value={currentUser.name}/>
+                                            <Input disabled={!allowEdit} type="text" id="name"
+                                                   value={currentUser.name}/>
                                             <Label htmlFor="email">Email:</Label>
-                                            <Input disabled={!allowEdit} type="email" id="email" value={currentUser.email}/>
+                                            <Input disabled={!allowEdit} type="email" id="email"
+                                                   value={currentUser.email}/>
                                             <Label htmlFor="number">Phone Number:</Label>
-                                            <Input disabled={!allowEdit} type="number" id="number" value={currentUser.phoneNumber}/>
+                                            <Input disabled={!allowEdit} type="number" id="number"
+                                                   value={currentUser.phoneNumber}/>
                                             <Label htmlFor="address">Address:</Label>
-                                            <Input disabled={!allowEdit} type="text" id="address" value={currentUser.address}/>
+                                            <Input disabled={!allowEdit} type="text" id="address"
+                                                   value={currentUser.address}/>
                                             <Label htmlFor="documentNumber">Document Number:</Label>
-                                            <div className={"grid grid-cols-5 gap-2"}>
-                                                <Input disabled={!allowEdit} type="text" id="documentNumber"
-                                                       value={currentUser.documentNumber} className={"col-span-4"}/>
-                                                <Button size="sm" variant="outline"
-                                                        className="h-10 gap-1 col-span-1"
-                                                        onClick={() => setViewDocument(true)}>
-                                                    <Eye className="h-3.5 w-3.5"/>
-                                                    <span
-                                                        className="lg:sr-only xl:not-sr-only xl:whitespace-nowrap">
-                                                              View
-                                                            </span>
-                                                </Button>
-                                            </div>
-                                            {viewDocument &&
-                                                <div className={"gap-2"}>
-                                                    <Label htmlFor="document">Document:</Label>
-                                                    <div className={"h-32 border-2 rounded-3xl mt-2"}>
-
-                                                    </div>
-                                                </div>
-                                            }
+                                            <Input disabled={!allowEdit} type="text" id="documentNumber"
+                                                   value={currentUser.documentNumber}/>
                                         </div>
                                     </CardContent>
+                                    {allowEdit && (
                                         <CardFooter className={"flex flex-row-reverse"}>
-                                            {!allowEdit &&
-                                                <Button size="sm" variant="outline"
-                                                        className="h-8 gap-1"
-                                                        onClick={() => setViewUserInfo(false)}>
-                                                    <EyeOff className="h-3.5 w-3.5"/>
-                                                    <span
-                                                        className="lg:sr-only xl:not-sr-only xl:whitespace-nowrap">
-                                                              Hide
-                                                            </span>
-                                                </Button>
-                                            }
-                                            {allowEdit &&
-                                                <Button size="sm" variant="default"
-                                                        className="h-8 gap-1 mr-2"
-                                                        onClick={() => {
-                                                            toast({
-                                                                title: "Saved!",
-                                                                description: "The user information has been saved successfully.",
-                                                                variant: "default",
-                                                            });
-                                                            setAllowEdit(false);
-                                                        }}>
-                                                        <span
-                                                            className="lg:sr-only xl:not-sr-only xl:whitespace-nowrap">
-                                                              Save
-                                                            </span>
-                                                </Button>
-                                            }
+                                            <Button asChild size="sm"
+                                                    className="ml-auto gap-1 bg-black hover:bg-gray-600"
+                                                    onClick={() => setAllowEdit(false)}>
+                                                <Link href="#">
+                                                    Save
+                                                </Link>
+                                            </Button>
                                         </CardFooter>
-                                </Card>}
-                        </div>
+                                    )}
+                                </Card>
+                            ) : (
+                                <Card className={"overflow-hidden"}>
+                                    <CardHeader className="flex flex-row items-start bg-muted/50">
+                                        <div className="grid gap-0.5">
+                                            <CardTitle className="group flex items-center gap-2 text-lg">
+                                                User Information
+                                            </CardTitle>
+                                        </div>
+                                    </CardHeader>
+                                    <CardContent className={"p-6 text-sm"}>
+                                        <p>Select user to view their information.</p>
+                                    </CardContent>
+                                </Card>
+                            )}</div>
                     </div>
                 </main>
             </div>
@@ -508,8 +556,4 @@ const UsersPage = () => {
     )
 }
 
-const ViewUserInfo = () => {
-
-}
-
-export default UsersPage;
+export default Dashboard
